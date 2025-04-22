@@ -1,0 +1,905 @@
+:root {
+   --primary-color: #4a6fa5;
+   --secondary-color: #6b8cae;
+   --accent-color: #ff7e5f;
+   --light-color: #f8f9fa;
+   --dark-color: #343a40;
+   --text-color: #495057;
+   --text-light: #ffffff;
+   --bg-gradient: linear-gradient(135deg, #4a6fa5 0%, #6b8cae 100%);
+   --transition: all 0.3s ease;
+   --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+   --border-radius: 8px;
+}
+
+/* Base Styles */
+body {
+   font-family: 'Poppins', sans-serif;
+   color: var(--text-color);
+   line-height: 1.7;
+   background-color: var(--light-color);
+   overflow-x: hidden;
+   padding-top: 80px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+   font-weight: 700;
+   color: var(--dark-color);
+}
+
+a {
+   text-decoration: none;
+   transition: var(--transition);
+}
+
+img {
+   max-width: 100%;
+   height: auto;
+}
+
+/* Navbar Styles */
+.navbar {
+   padding: 1rem 0;
+   background-color: transparent;
+   transition: var(--transition);
+   box-shadow: none;
+}
+
+.navbar.scrolled {
+   background-color: rgba(74, 111, 165, 0.95) !important;
+   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+   padding: 0.5rem 0;
+}
+
+.navbar-brand {
+   display: flex;
+   align-items: center;
+   font-weight: 700;
+   font-size: 1.5rem;
+}
+
+.logo-icon {
+   color: var(--accent-color);
+   margin-right: 0.5rem;
+   font-size: 1.8rem;
+}
+
+.logo-text {
+   color: var(--text-light);
+}
+
+.logo-text span {
+   color: var(--accent-color);
+}
+
+.navbar-toggler {
+   border: none;
+   color: var(--text-light);
+   font-size: 1.5rem;
+   padding: 0.5rem;
+}
+
+.navbar-toggler:focus {
+   box-shadow: none;
+}
+
+.nav-link {
+   color: var(--text-light) !important;
+   font-weight: 500;
+   padding: 0.5rem 1rem !important;
+   position: relative;
+   margin: 0 0.25rem;
+   display: inline-block;
+}
+
+.nav-link::after {
+   content: '';
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   height: 2px;
+   background-color: var(--accent-color);
+   width: 100%;
+   transform: scaleX(0);
+   transform-origin: left;
+   transition: var(--transition);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+   transform: scaleX(1);
+}
+
+
+.offcanvas {
+   background-color: var(--primary-color);
+}
+
+.offcanvas-header .btn-close {
+   background: none;
+   color: var(--text-light);
+   opacity: 1;
+   font-size: 1.2rem;
+}
+
+.offcanvas-title {
+   color: var(--text-light);
+   font-weight: 700;
+}
+
+/* Hero Carousel Styles */
+.carousel {
+   margin-top: -80px;
+   position: relative;
+   overflow: hidden;
+}
+
+.carousel-item {
+   height: 100vh;
+   min-height: 500px;
+   position: relative;
+}
+
+.carousel-item img {
+   object-fit: cover;
+   height: 100%;
+   width: 100%;
+   filter: brightness(0.7);
+}
+
+.carousel-caption {
+   bottom: 30%;
+   text-align: center;
+   left: 0;
+   right: 0;
+   padding: 0 1.5rem;
+   transform: none;
+}
+
+.carousel-caption h1 {
+   font-size: 2.5rem;
+   font-weight: 800;
+   margin-bottom: 1rem;
+   color: white;
+   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+   animation: fadeInUp 0.8s ease;
+   line-height: 1.2;
+}
+
+.carousel-caption .lead {
+   font-size: 1.25rem;
+   margin-bottom: 1.5rem;
+   color: rgba(255, 255, 255, 0.9);
+   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+   animation: fadeInUp 0.8s ease 0.3s forwards;
+   opacity: 0;
+   max-width: 700px;
+ 
+}
+
+.btn-explore {
+   padding: 0.5rem 1.5rem;
+   font-size: 0.875rem !important; /* text-xs */
+   border-radius: 50px;
+   font-weight: 600;
+   letter-spacing: 0.5px;
+   text-transform: uppercase;
+   animation: fadeInUp 0.8s ease 0.6s forwards;
+   opacity: 0;
+   transition: all 0.3s ease;
+   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+   border: none;
+}
+
+.btn-explore:hover {
+   transform: translateY(-2px);
+   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-indicators {
+   bottom: 30px;
+}
+
+.carousel-indicators button {
+   width: 10px;
+   height: 10px;
+   border-radius: 50%;
+   margin: 0 6px;
+   border: none;
+   background-color: rgba(255, 255, 255, 0.5);
+   transition: all 0.3s ease;
+}
+
+.carousel-indicators button.active {
+   background-color: var(--accent-color, #4e73df);
+   width: 25px;
+   border-radius: 10px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+   width: 40px;
+   height: 40px;
+   background-color: rgba(255, 255, 255, 0.2);
+   border-radius: 50%;
+   top: 50%;
+   transform: translateY(-50%);
+   opacity: 0;
+   transition: all 0.3s ease;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.carousel:hover .carousel-control-prev,
+.carousel:hover .carousel-control-next {
+   opacity: 1;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+   width: 1.5rem;
+   height: 1.5rem;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+   from {
+       opacity: 0;
+       transform: translateY(20px);
+   }
+   to {
+       opacity: 1;
+       transform: translateY(0);
+   }
+}
+
+/* Responsive Adjustments */
+@media (min-width: 768px) {
+   .carousel-caption {
+       text-align: left;
+       padding: 0 3rem;
+   }
+   
+   .carousel-caption h1 {
+       font-size: 3.5rem;
+   }
+   
+   .carousel-caption .lead {
+       font-size: 1.5rem;
+       margin-bottom: 2rem;
+   }
+   
+   .btn-explore {
+       padding: 0.75rem 2rem;
+       font-size: 1rem !important;
+   }
+}
+
+@media (max-width: 576px) {
+   .carousel-item {
+       min-height: 400px;
+   }
+   
+   .carousel-caption {
+       bottom: 25%;
+   }
+   
+   .carousel-caption h1 {
+       font-size: 2rem;
+       margin-bottom: 0.75rem;
+   }
+   
+   .carousel-caption .lead {
+       font-size: 1rem;
+       margin-bottom: 1rem;
+   }
+   
+   .carousel-indicators {
+       bottom: 15px;
+   }
+}
+
+/* Section Styles */
+.section {
+   padding: 5rem 0;
+   position: relative;
+}
+
+.section-title {
+   text-align: center;
+   margin-bottom: 25px;
+   position: relative;
+}
+
+.section-title span {
+   display: inline-block;
+   position: relative;
+   padding: 0 1.5rem;
+   font-size: 2.2rem;
+   color: var(--dark-color);
+}
+
+.section-title span::before,
+.section-title span::after {
+   content: '';
+   position: absolute;
+   top: 50%;
+   width: 50px;
+   height: 2px;
+   background-color: var(--accent-color);
+}
+
+.section-title span::before {
+   left: -50px;
+}
+
+.section-title span::after {
+   right: -50px;
+}
+
+.bg-light {
+   background-color: #f1f5f9 !important;
+}
+
+/* Infografis Cards */
+.infografis-card {
+   background-color: var(--text-light);
+   border-radius: var(--border-radius);
+   padding: 2rem;
+   text-align: center;
+   box-shadow: var(--box-shadow);
+   transition: var(--transition);
+   height: 100%;
+}
+
+.infografis-card:hover {
+   transform: translateY(-10px);
+   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.icon-box {
+   width: 80px;
+   height: 80px;
+   background: var(--bg-gradient);
+   color: var(--text-light);
+   border-radius: 50%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   margin: 0 auto 1.5rem;
+   font-size: 2rem;
+}
+
+.infografis-card h5 {
+   font-size: 1rem;
+   color: var(--primary-color);
+   margin-bottom: 0.5rem;
+}
+
+.infografis-card p {
+   color: var(--secondary-color);
+   font-weight: 500;
+}
+
+/* Profil Desa */
+.profil-image {
+   border-radius: var(--border-radius);
+   overflow: hidden;
+   box-shadow: var(--box-shadow);
+}
+
+.profil-content {
+   padding-left: 2rem;
+}
+
+.profil-content h3 {
+   font-size: 2rem;
+   margin-bottom: 1.5rem;
+   color: var(--primary-color);
+}
+
+.profil-list {
+   list-style: none;
+   padding: 0;
+   margin: 1.5rem 0;
+}
+
+.profil-list li {
+   margin-bottom: 0.8rem;
+   position: relative;
+   padding-left: 2rem;
+}
+
+.profil-list i {
+   color: var(--accent-color);
+   position: absolute;
+   left: 0;
+   top: 5px;
+}
+
+/* Berita Cards */
+.berita-card {
+   border: none;
+   border-radius: var(--border-radius);
+   overflow: hidden;
+   box-shadow: var(--box-shadow);
+   transition: var(--transition);
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start; /* Ini yang membuat konten rata kiri */
+}
+
+.berita-card:hover {
+   transform: translateY(-5px);
+   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.berita-card .card-img-top {
+   height: 200px;
+   object-fit: cover;
+   width: 100%; /* Tambahkan ini */
+}
+
+.berita-card .card-body {
+   width: 100%; /* Tambahkan ini */
+   padding: 1.25rem; /* Pastikan ada padding */
+   text-align: left; /* Pastikan teks rata kiri */
+}
+
+.berita-card .badge {
+   font-weight: 500;
+   margin-bottom: 0.5rem;
+   display: inline-block; /* Pastikan ini ada */
+   align-self: flex-start; /* Tambahkan ini */
+   text-align: left; /* Tambahkan ini */
+}
+
+.berita-card .card-title {
+   font-size: 1.2rem;
+   margin-bottom: 0.75rem;
+   text-align: left; /* Pastikan rata kiri */
+   width: 100%; /* Tambahkan ini */
+}
+
+.berita-card .card-text {
+   color: var(--text-color);
+   margin-bottom: 1rem;
+   text-align: left; /* Pastikan rata kiri */
+   width: 100%; /* Tambahkan ini */
+}
+
+.berita-card .card-footer {
+   background-color: transparent;
+   border-top: 1px solid rgba(0, 0, 0, 0.05);
+   width: 100%; /* Tambahkan ini */
+   text-align: left; /* Pastikan rata kiri */
+   padding: 0.75rem 1.25rem; /* Pastikan ada padding */
+}
+
+/* Jika button masih di tengah, tambahkan ini */
+.berita-card .btn {
+   align-self: flex-start;
+   margin-top: auto; /* Untuk posisi yang konsisten di bagian bawah */
+}
+
+.berita-card .card-title {
+   font-size: 1.2rem;
+   margin-bottom: 0.75rem;
+}
+
+.berita-card .card-text {
+   color: var(--text-color);
+   margin-bottom: 1rem;
+}
+
+.berita-card .card-footer {
+   background-color: transparent;
+   border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Product Cards */
+.product-card {
+   border: none;
+   border-radius: var(--border-radius);
+   overflow: hidden;
+   box-shadow: var(--box-shadow);
+   transition: var(--transition);
+   position: relative;
+   height: 100%;
+}
+
+.product-card:hover {
+   transform: translateY(-5px);
+   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.badge-ribbon {
+   position: absolute;
+   top: 10px;
+   right: -30px;
+   background-color: var(--accent-color);
+   color: var(--text-light);
+   padding: 0.25rem 2rem;
+   font-size: 0.8rem;
+   font-weight: 600;
+   transform: rotate(45deg);
+   width: 120px;
+   z-index: 1;
+   text-align: center;
+}
+
+.product-card .card-img-top {
+   height: 200px;
+   object-fit: cover;
+}
+
+.product-card .card-body {
+   padding: 1.25rem;
+}
+
+.product-card .card-title {
+   font-size: 1.1rem;
+   margin-bottom: 0.5rem;
+}
+
+.product-price {
+   font-size: 1.25rem;
+   font-weight: 700;
+   color: var(--primary-color);
+   margin-bottom: 0.5rem;
+}
+
+.product-rating {
+   color: #ffc107;
+   margin-bottom: 0.5rem;
+}
+
+.product-rating span {
+   color: var(--text-color);
+   font-size: 0.9rem;
+   margin-left: 0.5rem;
+}
+
+
+/* Footer */
+.footer {
+   background: var(--bg-gradient);
+   color: var(--text-light);
+   padding: 4rem 0 0;
+   position: relative;
+}
+
+.footer::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 15px;
+   background: linear-gradient(to right, var(--accent-color), #ff9a5f);
+}
+
+.footer-widget {
+   margin-bottom: 1rem;
+}
+
+.footer-logo {
+   display: flex;
+   align-items: center;
+   font-weight: 700;
+   font-size: 1.5rem;
+   margin-bottom: 1rem;
+}
+
+.footer-logo .logo-icon {
+   color: var(--accent-color);
+   margin-right: 0.5rem;
+   font-size: 1.8rem;
+}
+
+.footer-logo .logo-text {
+   color: var(--text-light);
+}
+
+.footer-logo .logo-text span {
+   color: var(--accent-color);
+}
+
+.footer-widget h5 {
+   color: var(--text-light);
+   font-size: 1.2rem;
+   margin-bottom: 1rem;
+   position: relative;
+   padding-bottom: 0.75rem;
+}
+
+.footer-widget h5::after {
+   content: '';
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   width: 50px;
+   height: 2px;
+   background-color: var(--accent-color);
+}
+
+.footer-widget ul {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+}
+
+.footer-widget ul li {
+   margin-bottom: 0.75rem;
+}
+
+.footer-widget ul li a {
+   color: rgba(255, 255, 255, 0.8);
+   transition: var(--transition);
+}
+
+.footer-widget ul li a:hover {
+   color: var(--accent-color);
+   padding-left: 5px;
+}
+
+.contact-info li {
+   display: flex;
+   align-items: center;
+   margin-bottom: 1rem;
+}
+
+.contact-info i {
+   margin-right: 0.75rem;
+   color: var(--accent-color);
+   width: 20px;
+   text-align: center;
+}
+
+.social-links {
+   display: flex;
+   gap: 1rem;
+   margin-top: 1.5rem;
+}
+
+.social-links a {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 40px;
+   height: 40px;
+   background-color: rgba(255, 255, 255, 0.1);
+   color: var(--text-light);
+   border-radius: 50%;
+   transition: var(--transition);
+}
+
+.social-links a:hover {
+   background-color: var(--accent-color);
+   transform: translateY(-3px);
+}
+
+.newsletter-form {
+   position: relative;
+   margin-top: 1.5rem;
+}
+
+.newsletter-form input {
+   width: 100%;
+   padding: 0.75rem 1rem;
+   border: none;
+   border-radius: 50px;
+   background-color: rgba(255, 255, 255, 0.2);
+   color: var(--text-light);
+}
+
+.newsletter-form input::placeholder {
+   color: rgba(255, 255, 255, 0.7);
+}
+
+.newsletter-form button {
+   position: absolute;
+   right: 5px;
+   top: 5px;
+   width: 40px;
+   height: 40px;
+   border: none;
+   background-color: var(--accent-color);
+   color: var(--text-light);
+   border-radius: 50%;
+   transition: var(--transition);
+}
+
+.newsletter-form button:hover {
+   background-color: #e06b4c;
+}
+
+.footer-bottom {
+   background-color: rgba(0, 0, 0, 0.1);
+   padding: 1.5rem 0;
+   margin-top: 3rem;
+}
+
+.footer-bottom p {
+   margin: 0;
+   color: rgba(255, 255, 255, 0.7);
+   font-size: 0.9rem;
+}
+
+.footer-links {
+   display: flex;
+   justify-content: flex-end;
+   gap: 1.5rem;
+}
+
+.footer-links a {
+   color: rgba(255, 255, 255, 0.7);
+   font-size: 0.9rem;
+   transition: var(--transition);
+}
+
+.footer-links a:hover {
+   color: var(--accent-color);
+}
+
+/* Bottom Navbar */
+.bottom-navbar {
+   display: none;
+   position: fixed;
+   margin-bottom: 20px;
+   left: 50%;
+   transform: translateX(-50%);
+   width: calc(100% - 40px);
+   height: 80px !important;
+   max-width: 500px;
+   background-color: var(--text-light);
+   border-radius: 20px;
+   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+   z-index: 1000;
+   padding: 0.1rem;
+}
+
+.bottom-navbar .container {
+   display: flex;
+   justify-content: space-around;
+   padding: 0;
+}
+
+.bottom-nav-link {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   color: var(--text-color);
+   padding: 0.5rem 1rem;
+   border-radius: 30px;
+   transition: var(--transition);
+}
+
+.nav-icon {
+   width: 40px;
+   height: 40px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   border-radius: 50%;
+   margin-bottom: 0.25rem;
+   transition: var(--transition);
+}
+
+.bottom-nav-link i {
+   font-size: 1.2rem;
+}
+
+.bottom-nav-link span {
+   font-size: 0.7rem;
+   font-weight: 500;
+}
+
+.bottom-nav-link.active .nav-icon,
+.bottom-nav-link:hover .nav-icon {
+   background-color: var(--primary-color);
+   color: var(--text-light);
+}
+
+/* Hanya warna teks yang berubah saat hover, bukan background */
+.bottom-nav-link:hover {
+   color: var(--text-color);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+   from {
+       opacity: 0;
+       transform: translateY(20px);
+   }
+   to {
+       opacity: 1;
+       transform: translateY(0);
+   }
+}
+
+/* Responsive Styles */
+@media (max-width: 1199.98px) {
+   .carousel-caption h1 {
+       font-size: 3rem;
+   }
+   
+   .carousel-caption p {
+       font-size: 1.3rem;
+   }
+}
+
+@media (max-width: 991.98px) {
+   .carousel-caption {
+       bottom: 25%;
+   }
+   
+   .carousel-caption h1 {
+       font-size: 2.5rem;
+   }
+   
+   .carousel-caption p {
+       font-size: 1.1rem;
+   }
+   
+   .profil-content {
+       padding-left: 0;
+       margin-top: 2rem;
+   }
+}
+
+@media (max-width: 767.98px) {
+   body {
+       padding-top: 70px;
+   }
+   
+   .carousel-item {
+       height: 80vh;
+       min-height: 500px;
+   }
+   
+   .carousel-caption {
+       bottom: 20%;
+       text-align: center;
+   }
+   
+   .carousel-caption h1 {
+       font-size: 2rem;
+   }
+   
+   .carousel-caption p {
+       font-size: 1rem;
+   }
+   
+   .section-title span {
+       font-size: 1.3rem;
+   }
+   
+   .section-title span::before,
+   .section-title span::after {
+       width: 30px;
+   }
+   
+   .section-title span::before {
+       left: -30px;
+   }
+   
+   .section-title span::after {
+       right: -30px;
+   }
+   
+   .footer::before {
+       height: 10px;
+   }
+   
+   .footer-bottom .row > div {
+       text-align: center !important;
+   }
+   
+   .footer-links {
+       justify-content: center;
+       margin-top: 1rem;
+   }
+}

@@ -1,0 +1,128 @@
+/* Mobile Specific Styles */
+@media (max-width: 575.98px) {
+    body {
+        padding-bottom: 90px;
+    }
+    
+    /* Navbar */
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
+    
+    .logo-icon {
+        font-size: 1.5rem;
+    }
+    
+    /* Carousel */
+    .carousel-item {
+        height: 70vh;
+        min-height: 400px;
+    }
+    
+    .carousel-caption {
+        bottom: 15%;
+    }
+    
+    .carousel-caption h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+    
+    .carousel-caption .btn {
+        padding: 0.5rem 1.5rem;
+    }
+    
+    /* Sections */
+    .section {
+        padding: 3rem 0;
+    }
+    
+    .section-title span {
+        font-size: 1.5rem;
+    }
+    
+    .section-title span::before,
+    .section-title span::after {
+        width: 20px;
+    }
+    
+    .section-title span::before {
+        left: -20px;
+    }
+    
+    .section-title span::after {
+        right: -20px;
+    }
+    
+    /* Infografis */
+    .infografis-card {
+        padding: 1.5rem;
+    }
+    
+    .icon-box {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .infografis-card h3 {
+        font-size: 1.5rem;
+    }
+    
+    /* Profil */
+    .profil-content h3 {
+        font-size: 1.5rem;
+    }
+    
+    /* PPID */
+    .ppid-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+    }
+    
+    .ppid-icon {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+    
+    .ppid-content h3 {
+        font-size: 1.3rem;
+    }
+    
+    /* Footer */
+    .footer {
+        padding: 3rem 0 0;
+    }
+    
+    .footer-widget {
+        margin-bottom: 2.5rem;
+    }
+    
+    .footer-logo {
+        font-size: 1.3rem;
+    }
+    
+    .footer-widget h3 {
+        font-size: 1.3rem;
+    }
+    
+    /* Bottom Navbar */
+    .bottom-navbar {
+        display: block;
+        bottom: 0px;
+        width: calc(100% - 20px);
+    }
+    
+    .bottom-nav-link {
+        padding: 0.5rem;
+    }
+    
+    .bottom-nav-link i {
+        font-size: 1rem;
+    }
+    
+    .bottom-nav-link span {
+        font-size: 0.6rem;
+    }
+}
