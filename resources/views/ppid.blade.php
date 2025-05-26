@@ -2,14 +2,36 @@
 
 @section('content')
 <!-- Luxurious Header Section -->
-   <div class="container mt-5">
-      <div class="col-12 text-center Informasi Publik Terbaru mt-3">
-         <h2 class="section-title"><span>PPID</span></h2>
-         <p class="text-muted text-center mt-0 mb-2" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+<div class="container mt-5">
+    <div class="col-12 text-center Informasi Publik Terbaru mt-3">
+        <h2 class="section-title"><span>PPID</span></h2>
+        <p class="fs-6 mt-0 mb-2" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
             Pejabat Pengelola Informasi dan Dokumentasi (PPID) adalah pejabat yang bertanggung jawab dalam pengelolaan dan pelayanan informasi publik di lingkungan pemerintahan desa. PPID bertugas untuk memastikan keterbukaan informasi yang akurat, cepat, dan mudah diakses oleh masyarakat, sesuai dengan peraturan perundang-undangan yang berlaku.
         </p>
-      </div>
     </div>
+</div>
+
+@php
+    // Get filter from request
+    $filter = request()->get('filter', 'terbaru');
+    
+    // Query based on filter
+    $query = App\Models\PPID::query();
+    
+    switch ($filter) {
+        case 'terlama':
+            $query->orderBy('publish_date', 'asc');
+            break;
+        case 'terbanyak':
+            $query->orderBy('download_count', 'desc');
+            break;
+        default:
+            $query->orderBy('publish_date', 'desc');
+            break;
+    }
+    
+    $ppids = $query->paginate(10)->appends(['filter' => $filter]);
+@endphp
 
 <!-- Main Content -->
 <div class="container py-5 position-relative">
@@ -23,112 +45,167 @@
                 <i class="fas fa-filter mr-2"></i>Filter
             </button>
             <div class="dropdown-menu dropdown-menu-right shadow-sm" aria-labelledby="filterDropdown">
-                <a class="dropdown-item" href="#"><i class="fas fa-sort-amount-down mr-2"></i> Terbaru</a>
-                <a class="dropdown-item" href="#"><i class="fas fa-sort-amount-up mr-2"></i> Terlama</a>
-                <a class="dropdown-item" href="#"><i class="fas fa-download mr-2"></i> Terbanyak Diunduh</a>
+                <a class="dropdown-item {{ $filter === 'terbaru' ? 'active' : '' }}" href="?filter=terbaru"><i class="fas fa-sort-amount-down mr-2"></i> Terbaru</a>
+                <a class="dropdown-item {{ $filter === 'terlama' ? 'active' : '' }}" href="?filter=terlama"><i class="fas fa-sort-amount-up mr-2"></i> Terlama</a>
+                <a class="dropdown-item {{ $filter === 'terbanyak' ? 'active' : '' }}" href="?filter=terbanyak"><i class="fas fa-download mr-2"></i> Terbanyak Diunduh</a>
             </div>
         </div>
     </div>
 
-    <!-- Documents Cards - Mobile Layout -->
-    <div class="row document-cards d-block d-md-none">
-        @for($i = 0; $i < 5; $i++)
-        <div class="col-12 mb-3">
-            <div class="card document-card h-100 border-0 shadow-sm">
-                <div class="card-body p-3">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div class="flex-grow-1">
-                            <div class="d-flex align-items-center mb-1">
-                                <h5 class="card-title font-weight-bold text-primary mb-0 text-sm">Laporan Tahunan 2023</h5>
-                                <span class="badge badge-info ml-2 text-xs">PDF</span>
-                            </div>
-                            <p class="card-text text-muted text-xs mb-2">Laporan kinerja instansi pemerintah tahun 2023.</p>
-                        </div>
-                        <div class="file-icon ml-2">
-                            <i class="fas fa-file-pdf text-danger fa-lg"></i>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <small class="text-muted text-xs">
-                            <i class="far fa-calendar-alt mr-1"></i> 15 Maret 2024
-                        </small>
-                        <small class="text-muted text-xs">
-                            <i class="fas fa-download mr-2"></i> 245
-                        </small>
-                    </div>
-                    <div class="d-flex justify-content-end mt-2 mx-2">
-                        <button class="btn btn-sm btn-outline-primary mr-2 text-xs">
-                            <i class="far fa-eye mr-1"></i> Lihat
-                        </button>
-                        <button class="btn btn-sm btn-primary btn-gradient text-xs mx-2">
-                            <i class="fas fa-download mr-1"></i> Unduh
-                        </button>
-                    </div>
+    @if($ppids->isEmpty())
+        <!-- Alert Warning when no data available -->
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-info-circle me-3 fs-4"></i>
+                <div>
+                    <strong>Informasi!</strong> Data PPID belum tersedia. Silakan cek kembali di lain waktu.
                 </div>
             </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        @endfor
-    </div>
-
-    <!-- Documents Cards - Desktop Layout -->
-    <div class="row document-cards d-none d-md-flex">
-        @for($i = 0; $i < 10; $i++)
-        <div class="col-lg-6 mb-4">
-            <div class="card document-card h-100 border-0 shadow-sm hover-float">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="d-flex align-items-center mb-2">
-                                <h5 class="card-title font-weight-bold text-primary mb-0 text-sm">Laporan Tahunan 2023</h5>
-                                <span class="badge badge-info ml-2 text-xs">PDF</span>
+    @else
+        <!-- Documents Cards - Mobile Layout -->
+        <div class="row document-cards d-block d-md-none">
+            @foreach($ppids as $ppid)
+            <div class="col-12 mb-3">
+                <div class="card document-card h-100 border-0 shadow-sm">
+                    <div class="card-body p-3">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="flex-grow-1">
+                                <div class="d-flex align-items-center mb-1">
+                                    <h5 class="card-title font-weight-bold text-primary mb-0 text-sm">{{ $ppid->title }}</h5>
+                                    <span class="badge badge-info ml-2 text-xs">{{ pathinfo($ppid->filename, PATHINFO_EXTENSION) }}</span>
+                                </div>
+                                <p class="card-text text-muted text-xs mb-2">{{ $ppid->description }}</p>
                             </div>
-                            <p class="card-text text-muted text-xs">Laporan kinerja instansi pemerintah tahun 2023 yang berisi capaian-capaian penting selama tahun berjalan.</p>
+                            <div class="file-icon ml-2">
+                                <i class="fas fa-file-{{ strtolower(pathinfo($ppid->filename, PATHINFO_EXTENSION)) === 'pdf' ? 'pdf text-danger' : 'alt text-primary' }} fa-lg"></i>
+                            </div>
                         </div>
-                        <div class="file-icon">
-                            <i class="fas fa-file-pdf text-danger"></i>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        <small class="text-muted text-xs">
-                            <i class="far fa-calendar-alt mr-1"></i> 15 Maret 2024
-                        </small>
-                        <div class="download-count">
-                            <small class="text-muted mr-3 text-xs">
-                                <i class="fas fa-download mr-1"></i> 245 unduhan
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted text-xs">
+                                <i class="far fa-calendar-alt mr-1"></i> {{ \Carbon\Carbon::parse($ppid->publish_date)->translatedFormat('d F Y') }}
                             </small>
-                            <button class="btn btn-sm btn-outline-primary text-xs">
-                                <i class="far fa-eye mr-3 mx-2"></i> Lihat
-                            </button>
-                            <button class="btn btn-sm btn-primary btn-gradient text-xs">
-                                <i class="fas fa-download mr-3 mx-2"></i> Unduh
-                            </button>
+                            <small class="text-muted text-xs">
+                                <i class="fas fa-download mr-2"></i> {{ $ppid->download_count }}
+                            </small>
+                        </div>
+                        <div class="d-flex justify-content-end mt-2">
+                             <!-- Tombol Lihat (ubah menjadi link biasa) -->
+                            <a href="{{ asset('storage/ppid/' . $ppid->filename) }}" target="_blank" class="btn btn-sm mx-2 btn-outline-primary mr-2 text-xs">
+                                <i class="far fa-eye mr-1"></i> Lihat
+                            </a>
+
+                            <!-- Tombol Unduh (pastikan route 'ppids.download' ada) -->
+                            <a href="{{ route('ppids.download', $ppid->id) }}" id="downloadLink" class="btn btn-sm btn-primary btn-gradient text-xs">
+                                <i class="fas fa-download mr-1"></i> Unduh
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="card-hover-overlay"></div>
             </div>
+            @endforeach
         </div>
-        @endfor
-    </div>
 
-    <!-- Pagination -->
-    <nav aria-label="Page navigation" class="mt-4">
-        <ul class="pagination justify-content-center pagination-sm">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                    <i class="fas fa-angle-left"></i>
-                </a>
-            </li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            </li>
-        </ul>
-    </nav>
+        <!-- Documents Cards - Desktop Layout -->
+        <div class="row document-cards d-none d-md-flex">
+            @foreach($ppids as $ppid)
+            <div class="col-12 mb-3">
+                <div class="card document-card h-100 border-0 shadow-sm">
+                    <div class="card-body p-3">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="flex-grow-1">
+                                <div class="d-flex align-items-center mb-1">
+                                    <h5 class="card-title font-weight-bold text-primary mb-0 text-sm">{{ $ppid->title }}</h5>
+                                    <span class="badge badge-info ml-2 text-xs">{{ pathinfo($ppid->filename, PATHINFO_EXTENSION) }}</span>
+                                </div>
+                                <p class="card-text text-muted text-xs mb-2">{{ $ppid->description }}</p>
+                            </div>
+                            <div class="file-icon ml-2">
+                                <i class="fas fa-file-{{ strtolower(pathinfo($ppid->filename, PATHINFO_EXTENSION)) === 'pdf' ? 'pdf text-danger' : 'alt text-primary' }} fa-lg"></i>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted text-xs">
+                                <i class="far fa-calendar-alt mr-1"></i> {{ \Carbon\Carbon::parse($ppid->publish_date)->translatedFormat('d F Y') }}
+                            </small>
+                            <small class="text-muted text-xs">
+                                <i class="fas fa-download mr-2"></i> {{ $ppid->download_count }}
+                            </small>
+                        </div>
+                        <div class="d-flex justify-content-end mt-2">
+                             <!-- Tombol Lihat (ubah menjadi link biasa) -->
+                            <a href="{{ asset('storage/ppid/' . $ppid->filename) }}" target="_blank" class="btn btn-sm mx-2 btn-outline-primary mr-2 text-xs">
+                                <i class="far fa-eye mr-1"></i> Lihat
+                            </a>
+
+                            <!-- Tombol Unduh (pastikan route 'ppids.download' ada) -->
+                            <a href="{{ route('ppids.download', $ppid->id) }}" id="downloadLink" class="btn btn-sm btn-primary btn-gradient text-xs">
+                                <i class="fas fa-download mr-1"></i> Unduh
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+
+        <!-- Pagination -->
+        @if($ppids->hasPages())
+            <div class="container mb-4">
+                <div class="row">
+                    <div class="col-12">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center" id="pagination-container">
+                                {{-- Previous Page Link --}}
+                                @if($ppids->onFirstPage())
+                                    <li class="page-item disabled">
+                                        <span class="page-link" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </span>
+                                    </li>
+                                @else
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $ppids->previousPageUrl() }}&filter={{ $filter }}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                {{-- Pagination Elements --}}
+                                @foreach($ppids->getUrlRange(1, $ppids->lastPage()) as $page => $url)
+                                    @if($page == $ppids->currentPage())
+                                        <li class="page-item active">
+                                            <span class="page-link">{{ $page }}</span>
+                                        </li>
+                                    @else
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $url }}&filter={{ $filter }}">{{ $page }}</a>
+                                        </li>
+                                    @endif
+                                @endforeach
+
+                                {{-- Next Page Link --}}
+                                @if($ppids->hasMorePages())
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $ppids->nextPageUrl() }}&filter={{ $filter }}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                @else
+                                    <li class="page-item disabled">
+                                        <span class="page-link" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </span>
+                                    </li>
+                                @endif
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        @endif
+    @endif
 
     <!-- Request Information Card - Mobile -->
     <div class="row justify-content-center mt-4 d-block d-md-none">
@@ -175,8 +252,6 @@
     </button>
 </div>
 
-
-
 <style>
     /* Base Styles */
     .text-xs {
@@ -185,6 +260,25 @@
     
     .text-sm {
         font-size: 0.875rem !important;
+    }
+    
+    /* Alert Styles */
+    .alert-warning {
+        background-color: #fff3cd;
+        border-color: #ffeeba;
+        color: #856404;
+    }
+    
+    .alert {
+        border-radius: 8px;
+        padding: 1rem 1.5rem;
+    }
+    
+    .alert-dismissible .btn-close {
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
     }
     
     /* Luxurious Header Styles */
@@ -308,7 +402,7 @@
         border-radius: 16px;
         padding: 25px;
         width: 100%;
-        max-width: 800px;
+        max-width: 1200px;
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
         transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         overflow: hidden;
@@ -592,7 +686,11 @@
         .document-card {
             border-radius: 10px;
         }
-        
+        .ppid-card-mobile{
+           max-width: 460px;
+           margin-left: 15px;  
+        }
+
         .ppid-card-mobile .ppid-icon {
             font-size: 2rem;
             margin-bottom: 15px;
@@ -685,6 +783,14 @@
                 scrollTop: $('.ppid-card-mobile').offset().top - 20
             }, 500);
         });
+    });
+</script>
+
+<script>
+    document.getElementById('downloadLink').addEventListener('click', function() {
+        setTimeout(function() {
+            window.location.href = "{{ route('ppid') }}"; // route tujuan setelah download
+        }, 2000); // delay 3 detik atau sesuai kebutuhan
     });
 </script>
 

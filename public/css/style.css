@@ -302,41 +302,22 @@ img {
 
 /* Section Styles */
 .section {
-   padding: 5rem 0;
+   padding: 1.8rem 0;
    position: relative;
 }
 
 .section-title {
-   text-align: center;
-   margin-bottom: 25px;
    position: relative;
 }
 
 .section-title span {
    display: inline-block;
    position: relative;
-   padding: 0 1.5rem;
-   font-size: 2.2rem;
-   color: var(--dark-color);
+   font-size: 2.8rem;
+   font-weight: 600;
+   color: var(--primary-color);
 }
 
-.section-title span::before,
-.section-title span::after {
-   content: '';
-   position: absolute;
-   top: 50%;
-   width: 50px;
-   height: 2px;
-   background-color: var(--accent-color);
-}
-
-.section-title span::before {
-   left: -50px;
-}
-
-.section-title span::after {
-   right: -50px;
-}
 
 .bg-light {
    background-color: #f1f5f9 !important;

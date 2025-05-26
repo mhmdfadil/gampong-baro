@@ -6,14 +6,47 @@
                 <div class="footer-widget">
                     <div class="footer-logo">
                         <span class="logo-icon"><i class="fas fa-leaf"></i></span>
-                        <span class="logo-text">Desa<span>Harmoni</span></span>
+                            @php
+                            $ssetting = App\Models\Setting::first(); // Ambil data dari database
+                            
+                            // Handle nama_desa
+                            $nama_desa = $ssetting->nama_desa ?? '-';
+                            if ($nama_desa != '-') {
+                                $nama_desa_parts = explode(' ', $nama_desa);
+                                if (count($nama_desa_parts) > 1) {
+                                    $first_word = array_shift($nama_desa_parts);
+                                    $rest_words = implode(' ', $nama_desa_parts);
+                                    $nama_desa = $first_word.'<span>'.$rest_words.'</span>';
+                                }
+                            }
+                            
+                            // Handle deskripsi_singkat
+                            $deskripsi_singkat = $ssetting->deskripsi_singkat ?? '-';
+                        @endphp
+
+                        <span class="logo-text">{!! $nama_desa !!}</span>
                     </div>
-                    <p>Desa Harmoni adalah desa yang memadukan keindahan alam dengan kemajuan modern, menciptakan harmoni antara manusia dan lingkungan.</p>
+                    <p>{{ $deskripsi_singkat }}</p>
+                    @php
+                        $socialMedia = App\Models\SocialMedia::first(); // Ambil data dari database
+                    @endphp
+
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        @if($socialMedia->active_fb && $socialMedia->link_fb)
+                            <a href="{{ $socialMedia->link_fb }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        @endif
+                        
+                        @if($socialMedia->active_ig && $socialMedia->link_ig)
+                            <a href="{{ $socialMedia->link_ig }}" target="_blank"><i class="fab fa-instagram"></i></a>
+                        @endif
+                        
+                        @if($socialMedia->active_yt && $socialMedia->link_yt)
+                            <a href="{{ $socialMedia->link_yt }}" target="_blank"><i class="fab fa-youtube"></i></a>
+                        @endif
+                        
+                        @if($socialMedia->active_wa && $socialMedia->link_wa)
+                            <a href="{{ $socialMedia->link_wa }}" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -23,11 +56,11 @@
                 <div class="footer-widget">
                     <h5 class="mobile-accordion-header">Tautan Cepat <i class="fas fa-chevron-down accordion-icon"></i></h5>
                     <ul class="mobile-accordion-content">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#profil">Profil Desa</a></li>
-                        <li><a href="#berita">Berita</a></li>
-                        <li><a href="#belanja">Belanja</a></li>
-                        <li><a href="#ppid">PPID</a></li>
+                        <li><a href="{{ route('beranda') }}">Home</a></li>
+                        <li><a href="{{ route('profil') }}">Profil Desa</a></li>
+                        <li><a href="{{ route('berita') }}">Berita</a></li>
+                        <li><a href="{{ route('belanja') }}">Belanja</a></li>
+                        <li><a href="{{ route('ppid') }}">PPID</a></li>
                     </ul>
                 </div>
             </div>
@@ -36,10 +69,19 @@
             <div class="col-lg-3 col-md-6">
                 <div class="footer-widget">
                     <h5 class="mobile-accordion-header">Kontak Kami <i class="fas fa-chevron-down accordion-icon"></i></h5>
+                    @php
+                        $ssetting = App\Models\Setting::first(); // Ambil data dari database
+                        
+                        // Data kontak dengan fallback '-'
+                        $alamat = $ssetting->alamat ?? '-';
+                        $nomor_hp = $ssetting->nomor_hp ?? '-';
+                        $email = $ssetting->email ?? '-';
+                    @endphp
+
                     <ul class="contact-info mobile-accordion-content">
-                        <li><i class="fas fa-map-marker-alt"></i> Jl. Harmoni No. 123, Kec. Sejahtera, Kab. Damai</li>
-                        <li><i class="fas fa-phone-alt"></i> (021) 1234-5678</li>
-                        <li><i class="fas fa-envelope"></i> info@desaharmoni.id</li>
+                        <li><i class="fas fa-map-marker-alt"></i> {{ $alamat }}</li>
+                        <li><i class="fas fa-phone-alt"></i> {{ $nomor_hp }}</li>
+                        <li><i class="fas fa-envelope"></i> {{ $email }}</li>
                     </ul>
                 </div>
             </div>
@@ -49,7 +91,7 @@
                 <div class="footer-widget">
                     <h5 class="mobile-accordion-header">Newsletter <i class="fas fa-chevron-down accordion-icon"></i></h5>
                     <div class="mobile-accordion-content">
-                        <p>Dapatkan informasi terbaru dari Desa Harmoni langsung ke email Anda.</p>
+                        <p>Dapatkan informasi terbaru dari {!! $nama_desa !!} langsung ke email Anda.</p>
                         <form class="newsletter-form">
                             <input type="email" placeholder="Alamat Email Anda">
                             <button type="submit"><i class="fas fa-paper-plane"></i></button>

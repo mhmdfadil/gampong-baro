@@ -1,23 +1,31 @@
 @extends('components.main')
 
 @section('content')
-<div class="py-4 py-lg-5 px-3">
-    <div class="row justify-content-center mx-0">
-        <div class="col-12 col-lg-9 col-xl-8 px-2">
-            <!-- Animated Header with Glass Morphism -->
-            <div class="text-center mb-3 mb-lg-5 glass-card p-4 rounded-4" data-aos="fade-down" data-aos-duration="800">
-               <div class=" bg-opacity-20 text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px; backdrop-filter: blur(10px);">
-                  <i class="fas fa-comment-dots fa-2x"></i>
-               </div>
-               <h4 class="fw-bold mb-2 text-white">Formulir Pengaduan</h4>
-               <div class="animated-typing-container">
-                   <p class="text-white-50 mb-0 typed-text">Sampaikan keluhan/permintaan Anda dengan lengkap...</p>
-               </div>
+<body class="bg-light">
+<div class="py-0 px-3">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+            <!-- Header Section -->
+            <div class="text-center mb-4" data-aos="fade-down">
+                <div class="section-title">
+                    <span>Formulir Pengaduan</span>
+                </div>
+                <p class="fs-[6] mb-0">Sampaikan keluhan/permintaan Anda dengan lengkap dan jelas</p>
+                <div class="d-flex justify-content-center align-items-center mt-3">
+                    <div class="badge bg-primary rounded-pill px-3 py-2">
+                        <i class="fas fa-shield-alt me-2"></i>Data Anda terlindungi
+                    </div>
+                </div>
             </div>
             
             <!-- Error Messages -->
             @if($errors->any())
-                <div class="alert alert-glass-danger mb-4" data-aos="fade-up">
+                <div class="alert alert-danger mb-4 animate__animated animate__fadeIn" role="alert">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-exclamation-circle me-2 fs-4"></i>
+                        <h5 class="alert-heading mb-0">Terdapat kesalahan</h5>
+                    </div>
+                    <hr>
                     <ul class="mb-0 ps-3">
                         @foreach($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -26,129 +34,173 @@
                 </div>
             @endif
             
-            <!-- Luxurious Form Body with Glass Morphism -->
-            <div class="glass-cards rounded-4 p-4 p-lg-5 shadow-luxury" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-                <form action="{{ route('pengaduan.store') }}" method="POST" id="complaintForm" enctype="multipart/form-data">
-                    @csrf
-                    
-                    <!-- Name Field -->
-                    <div class="mb-4 floating-input">
-                        <label for="name" class="form-label fw-semibold text-white">Nama Lengkap <span class="text-danger">*</span></label>
-                        <div class="input-group glass-input border-0 rounded-3 overflow-hidden">
-                            <span class="input-group-text bg-transparent border-0 pe-2 text-white"><i class="fas fa-user"></i></span>
-                            <input type="text" placeholder="Masukkan nama lengkap" class="form-control glass-input-inner border-0 py-3 text-white" id="name" name="name" placeholder=" " value="{{ old('name') }}" required>
-                            <div class="floating-label text-white-50"></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Contact Field -->
-                    <div class="mb-4 floating-input">
-                        <label for="contact" class="form-label fw-semibold text-white">Nomor Telepon/WhatsApp <span class="text-danger">*</span></label>
-                        <div class="input-group glass-input border-0 rounded-3 overflow-hidden">
-                            <span class="input-group-text bg-transparent border-0 pe-2 text-white"><i class="fas fa-phone-alt"></i></span>
-                            <input type="number" placeholder="Contoh: 081234567890" class="form-control glass-input-inner border-0 py-3 text-white" id="contact" name="contact" placeholder=" " value="{{ old('contact') }}" required>
-                            <div class="floating-label text-white-50"></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Complaint Category -->
-                    <div class="mb-4">
-                        <label for="category" class="form-label fw-semibold text-white">Kategori Pengaduan <span class="text-danger">*</span></label>
-                        <div class="input-group glass-input border-0 rounded-3 overflow-hidden select-wrapper">
-                            <span class="input-group-text bg-transparent border-0 pe-2 text-white"><i class="fas fa-tags"></i></span>
-                            <select class="form-control glass-input-inner border-0 py-3 text-white" id="category" name="category" required>
-                                <option value="" selected disabled>Pilih kategori</option>
-                                <option value="umum" {{ old('category') == 'umum' ? 'selected' : '' }}>Umum</option>
-                                <option value="sosial_kebersihan" {{ old('category') == 'sosial_kebersihan' ? 'selected' : '' }}>Sosial & Kebersihan</option>
-                                <option value="keamanan" {{ old('category') == 'keamanan' ? 'selected' : '' }}>Keamanan</option>
-                                <option value="kesehatan" {{ old('category') == 'kesehatan' ? 'selected' : '' }}>Kesehatan</option>
-                                <option value="permintaan" {{ old('category') == 'permintaan' ? 'selected' : '' }}>Permintaan</option>
-                            </select>
-                            <i class="fas fa-chevron-down select-arrow text-white-50"></i>
-                        </div>
-                    </div>
-                    
-                    <!-- Complaint Details -->
-                    <div class="mb-4">
-                        <label for="complaint" class="form-label fw-semibold text-white">Detail Pengaduan <span class="text-danger">*</span></label>
-                        <div class="position-relative">
-                            <textarea class="form-control glass-input-inner border-0 py-3 text-white" id="complaint" name="complaint" rows="5" placeholder="Jelaskan pengaduan Anda secara detail" required>{{ old('complaint') }}</textarea>
-                            <div class="floating-label text-white-50"></div>
-                        </div>
-                        <div class="form-text text-white-50 ps-2">Mohon jelaskan dengan jelas dan lengkap untuk mempermudah penanganan.</div>
-                    </div>
-                    
-                    <!-- File Upload -->
-                    <div class="mb-4">
-                        <label for="attachments" class="form-label fw-semibold text-white">Unggah Bukti (Opsional)</label>
-                        <div class="file-upload-wrapper glass-input border-0 rounded-4 p-4 position-relative overflow-hidden">
-                            <div class="file-upload-content text-center">
-                                <i class="fas fa-cloud-upload-alt fa-3x text-white mb-3"></i>
-                                <h5 class="fw-semibold mb-2 text-white">Seret & Lepaskan file disini</h5>
-                                <p class="text-white-50 mb-3">atau</p>
-                                <label for="attachments" class="btn btn-glass-outline px-4 rounded-3">
-                                    <i class="fas fa-folder-open me-2"></i>Pilih File
-                                </label>
-                                <div class="form-text text-white-50 mt-3">Maksimal 3 file (Gambar/PDF), ukuran maksimal per file: 5MB</div>
+            <!-- Form Card -->
+            <div class="card border-0 shadow-lg rounded-3 overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                <div class="card-header bg-gradient-primary  py-3" >
+                    <h4 class="mb-0" style="color: white"><i class="fas fa-edit me-2"></i> Isi Formulir</h4>
+                </div>
+                <div class="card-body p-2 p-md-5">
+                    <form action="{{ route('pengaduan.store') }}" method="POST" id="complaintForm" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        @csrf
+                        
+                        <!-- Personal Information Section -->
+                        <div class="mb-2">
+                            <h5 class="mb-4 text-primary d-flex align-items-center">
+                                <span class="bg-primary-soft rounded-circle  me-3">
+                                    <i class="fas fa-user-circle"></i>
+                                </span>
+                                Informasi Pribadi
+                            </h5>
+                            
+                            <!-- Name Field -->
+                            <div class="mb-4">
+                                <label for="name" class="form-label fw-semibold">Nama Lengkap <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-primary-soft text-primary"><i class="fas fa-user"></i></span>
+                                    <input type="text" class="form-control py-2" id="name" name="name" placeholder="Masukkan nama lengkap" value="{{ old('name') }}" required>
+                                    <div class="invalid-feedback">Harap isi nama lengkap Anda</div>
+                                </div>
                             </div>
-                            <input class="form-control d-none" type="file" id="attachments" name="attachments[]" multiple accept=".jpg,.jpeg,.png,.pdf,.docx,.doc" maxfiles="3">
-                            <div id="filePreview" class="mt-3 d-none">
-                                <h6 class="fw-semibold mb-3 text-white">File Terpilih:</h6>
-                                <div id="fileList" class="row g-3"></div>
+                            
+                            <!-- Contact Field -->
+                            <div class="mb-4">
+                                <label for="contact" class="form-label fw-semibold">Nomor Telepon/WhatsApp <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-primary-soft text-primary"><i class="fas fa-phone-alt"></i></span>
+                                    <input type="tel" class="form-control py-2" id="contact" name="contact" placeholder="Contoh: 081234567890" value="{{ old('contact') }}" required>
+                                    <div class="invalid-feedback">Harap isi nomor yang dapat dihubungi</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Submit Button -->
-                    <div class="d-grid mt-5" data-aos="zoom-in" data-aos-delay="400">
-                        <button type="submit" class="btn btn-neon-primary py-3 fw-semibold rounded-3 btn-hover-effect">
-                            <i class="fas fa-paper-plane me-2"></i>Kirim Pengaduan
-                            <span class="btn-glow"></span>
-                        </button>
-                    </div>
-                </form>
+                        
+                        <!-- Complaint Information Section -->
+                        <div class="mb-5">
+                            <h5 class="mb-4 text-primary d-flex align-items-center">
+                                <span class="bg-primary-soft rounded-circle p-2 me-3">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </span>
+                                Detail Pengaduan
+                            </h5>
+                            
+                            <!-- Complaint Category -->
+                            <div class="mb-4">
+                                <label for="category" class="form-label fw-semibold">Kategori Pengaduan <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-primary-soft text-primary"><i class="fas fa-tags"></i></span>
+                                    <select class="form-select py-2" id="category" name="category" required>
+                                        <option value="" selected disabled>Pilih kategori</option>
+                                        <option value="umum" {{ old('category') == 'umum' ? 'selected' : '' }}>Umum</option>
+                                        <option value="sosial_kebersihan" {{ old('category') == 'sosial_kebersihan' ? 'selected' : '' }}>Sosial & Kebersihan</option>
+                                        <option value="keamanan" {{ old('category') == 'keamanan' ? 'selected' : '' }}>Keamanan</option>
+                                        <option value="kesehatan" {{ old('category') == 'kesehatan' ? 'selected' : '' }}>Kesehatan</option>
+                                        <option value="permintaan" {{ old('category') == 'permintaan' ? 'selected' : '' }}>Permintaan</option>
+                                    </select>
+                                    <div class="invalid-feedback">Harap pilih kategori pengaduan</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Complaint Details -->
+                            <div class="mb-4">
+                                <label for="complaint" class="form-label fw-semibold">Detail Pengaduan <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="complaint" name="complaint" rows="5" placeholder="Jelaskan pengaduan Anda secara detail" required>{{ old('complaint') }}</textarea>
+                                <div class="form-text ps-1">Mohon jelaskan dengan jelas dan lengkap untuk mempermudah penanganan.</div>
+                                <div class="invalid-feedback">Harap isi detail pengaduan Anda</div>
+                            </div>
+                            
+                            <!-- File Upload -->
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">Unggah Bukti (Opsional)</label>
+                                <div class="file-upload-wrapper border border-2 border-dashed rounded-3 p-4 position-relative overflow-hidden bg-light">
+                                    <div class="file-upload-content text-center">
+                                        <div class="position-relative d-inline-block">
+                                            <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
+                                            <div class="position-absolute top-0 start-100 translate-middle">
+                                                <span class="badge bg-primary rounded-pill pulse-animation">
+                                                    <i class="fas fa-plus"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <h5 class="fw-semibold mb-2">Seret & Lepaskan file disini</h5>
+                                        <p class="text-muted mb-3">atau</p>
+                                        <label for="attachments" class="btn btn-primary px-4 rounded-pill">
+                                            <i class="fas fa-folder-open me-2"></i>Pilih File
+                                        </label>
+                                        <div class="form-text mt-3">Maksimal 3 file (Gambar/PDF), ukuran maksimal per file: 5MB</div>
+                                    </div>
+                                    <input class="form-control d-none" type="file" id="attachments" name="attachments[]" multiple accept=".jpg,.jpeg,.png,.pdf,.docx,.doc" maxfiles="3">
+                                    <div id="filePreview" class="mt-3 d-none">
+                                        <h6 class="fw-semibold mb-3 d-flex align-items-center">
+                                            <i class="fas fa-paperclip me-2"></i>File Terpilih:
+                                        </h6>
+                                        <div id="fileList" class="row g-3"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="d-grid mt-5" data-aos="zoom-in" data-aos-delay="200">
+                            <button type="submit" class="btn btn-primary btn-lg py-3 fw-semibold rounded-pill shadow-sm">
+                                <i class="fas fa-paper-plane me-2"></i>Kirim Pengaduan
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
             
             <!-- Form Footer -->
-            <div class="text-center mt-4" data-aos="fade-up" data-aos-delay="600">
-                <div class="text-white-50 small">
-                    <i class="fas fa-info-circle me-1"></i> Pengaduan Anda akan diproses dalam 1-3 hari kerja
+            <div class="text-center mt-2 mb-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="d-flex align-items-center justify-content-center text-muted">
+                    <i class="fas fa-clock me-2"></i>
+                    <div>
+                        <small>Pengaduan Anda akan diproses dalam 1-3 hari kerja</small>
+                      
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Floating Background Elements -->
-<div class="bg-bubbles">
-    <div class="bubble bubble-1"></div>
-    <div class="bubble bubble-2"></div>
-    <div class="bubble bubble-3"></div>
-    <div class="bubble bubble-4"></div>
-    <div class="bubble bubble-5"></div>
-</div>
-
 <!-- Success Modal -->
-<div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content glass-card border-0">
-            <div class="modal-body text-center p-5 position-relative">
-                <div class="success-animation">
-                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-                        <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-                    </svg>
-                </div>
-                <h4 class="fw-bold mb-3 text-neon">Pengaduan Terkirim!</h4>
-                <p class="mb-4 text-white">Terima kasih telah menyampaikan pengaduan. Kami akan segera menindaklanjuti keluhan Anda.</p>
-                @if(session('nomor_pengaduan'))
-                    <div class="alert alert-glass-info mb-3">
-                        <strong class="text-white">Nomor Pengaduan:</strong> <span class="text-white">{{ session('nomor_pengaduan') }}</span>
+        <div class="modal-content border-0 overflow-hidden">
+            <div class="modal-body text-center p-0">
+                <div class="success-header bg-gradient-primary py-4">
+                    <div class="success-animation mb-4">
+                        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                        </svg>
                     </div>
-                @endif
-                <button type="button" class="btn btn-neon-outline px-4 rounded-3 btn-hover-effect" data-bs-dismiss="modal">
-                    <i class="fas fa-times me-2"></i>Tutup
-                </button>
+                </div>
+                <div class="px-4 py-5">
+                    <h3 class="fw-bold mb-3 text-primary">Pengaduan Terkirim!</h3>
+                    <p class="mb-4">Terima kasih telah menyampaikan pengaduan. Kami akan segera menindaklanjuti keluhan Anda.</p>
+                    
+                    @if(session('nomor_pengaduan'))
+                        <div class="alert alert-primary alert-dismissible fade show mb-4" role="alert">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-bullhorn me-2"></i>
+                                <div>
+                                    <strong>Nomor Pengaduan:</strong> 
+                                    <span class="d-block mt-1">{{ session('nomor_pengaduan') }}</span>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                    
+                    <div class="d-flex justify-content-center gap-3">
+                        <button type="button" class="btn btn-outline-primary px-4 rounded-pill" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-2"></i>Tutup
+                        </button>
+                        <button type="button" class="btn btn-primary px-4 rounded-pill" onclick="window.location.href='{{ url('/') }}'">
+                            <i class="fas fa-home me-2"></i>Beranda
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -157,269 +209,191 @@
 <!-- File Preview Modal -->
 <div class="modal fade" id="filePreviewModal" tabindex="-1" aria-hidden="true">
    <div class="modal-dialog modal-lg modal-dialog-centered">
-       <div class="modal-content glass-card border-0" style="max-height: 90vh;">
-           <div class="modal-header border-0 position-relative">
-               <h5 class="modal-title w-75 text-white" id="previewFileName"></h5>
-               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+       <div class="modal-content border-0 shadow-lg" style="max-height: 90vh;">
+           <div class="modal-header border-0">
+               <h5 class="modal-title w-75 text-truncate" id="previewFileName"></h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
            </div>
            <div class="modal-body p-0 d-flex justify-content-center align-items-center" id="filePreviewContent" style="min-height: 50vh;">
                <!-- Preview content will be inserted here -->
+           </div>
+           <div class="modal-footer border-0 bg-light">
+               <button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">
+                   <i class="fas fa-times me-2"></i>Tutup
+               </button>
+               <button type="button" class="btn btn-primary rounded-pill" id="downloadPreviewFile">
+                   <i class="fas fa-download me-2"></i>Unduh
+               </button>
            </div>
        </div>
    </div>
 </div>
 
 <style>
-    /* Base Styles with Gradient Background */
-    body {
-        font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-        color: white;
-        min-height: 100vh;
-        overflow-x: hidden;
-    }
-    .select-arrow {
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        pointer-events: none;
-        color: #6c757d;
-        transition: all 0.3s ease;
-    }
-    /* Glass Morphism Effect */
-    .glass-card {
-        overflow: hidden;
-        max-height: 240px;
-        word-wrap: normal;
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    }
+    /* Custom Variables */
+    :root {
 
-    .glass-cards {
-        overflow: hidden;
-        word-wrap: normal;
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+
+        --primary-soft: rgba(78, 115, 223, 0.1);
+        --success-color: #1cc88a;
+        --danger-color: #e74a3b;
+        --warning-color: #f6c23e;
+        --info-color: #36b9cc;
     }
     
-    .glass-input {
-        background: rgba(255, 255, 255, 0.05) !important;
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    /* Base Styles */
+    body {
+        font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        background-color: #f8f9fc;
+        color: #5a5c69;
+        line-height: 1.6;
     }
     
-    .glass-input-inner {
-        background: transparent !important;
-        background: rgba(255, 255, 255, 0.1) !important;
-        color: black !important;
+    /* Gradient Background */
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, var(--primary-color) 0%, #224abe 100%);
     }
     
-    .glass-input-inner::placeholder {
-        color: rgba(255, 255, 255, 0.5) !important;
+    .bg-primary-soft {
+        background-color: var(--primary-soft);
     }
     
-    .alert-glass-danger {
-        background: rgba(220, 53, 69, 0.2);
-        backdrop-filter: blur(5px);
-        border: 1px solid rgba(220, 53, 69, 0.3);
-        color: #ff6b6b;
-    }
+
+  
     
-    .alert-glass-info {
-        background: rgba(13, 110, 253, 0.2);
-        backdrop-filter: blur(5px);
-        border: 1px solid rgba(13, 110, 253, 0.3);
-    }
+  
     
-    /* Neon Effects */
-    .text-neon {
-        color: #00f2fe;
-        text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
-    }
     
-    .btn-neon-primary {
-        background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    /* Form Styling */
+    .card {
         border: none;
-        color: #1a1a2e;
-        font-weight: 600;
-        position: relative;
-        overflow: hidden;
-        z-index: 1;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     
-    .btn-neon-primary:hover {
-        color: #1a1a2e;
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
     }
     
-    .btn-neon-primary::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 0;
-        height: 100%;
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        transition: all 0.4s ease;
-        z-index: -1;
+    .card-header {
+        border-bottom: none;
     }
     
-    .btn-neon-primary:hover::before {
-        width: 100%;
+    .form-control, .form-select {
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem !important;
+        transition: all 0.3s ease;
+        border: 1px solid #d1d3e2;
     }
     
-    .btn-neon-outline {
-        background: transparent;
-        border: 2px solid #00f2fe;
-        color: #00f2fe;
-        position: relative;
-        overflow: hidden;
+    .form-control:focus, .form-select:focus {
+        box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+        border-color: var(--primary-color);
     }
     
-    .btn-neon-outline:hover {
-        background: rgba(0, 242, 254, 0.1);
-        color: #00f2fe;
+    .input-group-text {
+        border-radius: 0.5rem 0 0 0.5rem !important;
+        background-color: var(--primary-soft);
+        border-right: none;
     }
     
-    .btn-neon-outline::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.2), transparent);
-        transition: all 0.6s ease;
+    .input-group .form-control {
+        border-left: none;
     }
     
-    .btn-neon-outline:hover::before {
-        left: 100%;
+    textarea {
+        resize: none;
+        min-height: 150px;
     }
     
-    .btn-glass-outline {
-        background: transparent;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        color: white;
+    /* Buttons */
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
         transition: all 0.3s ease;
     }
     
-    .btn-glass-outline:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.5);
-        color: white;
+    .btn-primary:hover {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+        transform: translateY(-2px);
     }
     
-    /* Floating Labels */
-    .floating-input {
-        position: relative;
+    .btn-outline-primary {
+        color: var(--primary-color);
+        border-color: var(--primary-color);
     }
     
-    .floating-label {
-        position: absolute;
-        top: 50%;
-        left: 55px;
-        transform: translateY(-50%);
-        color: rgba(255, 255, 255, 0.7);
-        pointer-events: none;
-        transition: all 0.3s ease;
-        z-index: 5;
+    .btn-outline-primary:hover {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
     }
     
-    .floating-input input:focus ~ .floating-label,
-    .floating-input input:not(:placeholder-shown) ~ .floating-label,
-    textarea:focus ~ .floating-label,
-    textarea:not(:placeholder-shown) ~ .floating-label {
-        top: 10px;
-        left: 55px;
-        font-size: 12px;
-        background: rgba(26, 26, 46, 0.7);
-        padding: 0 5px;
-        color: #00f2fe;
+    .btn-lg {
+        padding: 0.75rem 2rem;
+        font-size: 1.1rem;
     }
     
-    /* Button Glow Effect */
-    .btn-glow {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(45deg, 
-            rgba(0, 242, 254, 0.8), 
-            rgba(79, 172, 254, 0.8), 
-            rgba(0, 242, 254, 0.8));
-        z-index: -2;
-        filter: blur(15px);
-        opacity: 0;
-        transition: opacity 0.5s ease;
-    }
-    
-    .btn-hover-effect:hover .btn-glow {
-        opacity: 0.6;
+    .rounded-pill {
+        border-radius: 50rem !important;
     }
     
     /* File Upload Styling */
     .file-upload-wrapper {
         transition: all 0.3s ease;
-        border-style: dashed;
+        background-color: #f8f9fc;
+        border-color: #d1d3e2 !important;
     }
     
     .file-upload-wrapper:hover {
-        border-color: rgba(0, 242, 254, 0.5) !important;
-        background-color: rgba(0, 242, 254, 0.05) !important;
+        border-color: var(--primary-color) !important;
+        background-color: rgba(78, 115, 223, 0.05) !important;
     }
     
     .file-upload-wrapper.drag-over {
-        background-color: rgba(0, 242, 254, 0.1) !important;
-        border-color: rgba(0, 242, 254, 0.7) !important;
+        background-color: rgba(78, 115, 223, 0.1) !important;
+        border-color: var(--primary-color) !important;
     }
     
     .file-card {
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid #e3e6f0;
         border-radius: 0.75rem;
-        padding: 1rem;
+        padding: 1.25rem;
         transition: all 0.3s ease;
         cursor: pointer;
-        background: rgba(255, 255, 255, 0.05);
+        background: white;
         position: relative;
         overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
     }
     
     .file-card:hover {
         transform: translateY(-5px);
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(0, 242, 254, 0.5);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        border-color: var(--primary-color);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
     }
     
     .file-icon {
         font-size: 2rem;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.75rem;
         transition: all 0.3s ease;
     }
     
     .file-card:hover .file-icon {
-        transform: scale(1.2);
-        color: #00f2fe;
+        transform: scale(1.15);
+        color: var(--primary-color);
     }
     
     .file-name {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        color: white;
+        font-weight: 500;
     }
     
     .file-size {
         font-size: 0.8rem;
-        color: rgba(255, 255, 255, 0.6);
+        color: #858796;
     }
     
     .file-remove {
@@ -429,7 +403,7 @@
         width: 25px;
         height: 25px;
         border-radius: 50%;
-        background: #dc3545;
+        background: var(--danger-color);
         color: white;
         display: flex;
         align-items: center;
@@ -438,19 +412,29 @@
         cursor: pointer;
         transition: all 0.3s ease;
         z-index: 10;
+        opacity: 0;
+    }
+    
+    .file-card:hover .file-remove {
+        opacity: 1;
+        transform: scale(1);
     }
     
     .file-remove:hover {
-        transform: scale(1.1);
-        background: #bb2d3b;
+        transform: scale(1.1) !important;
+        background: #c03546;
     }
     
     /* Success Animation */
     .success-animation {
         width: 100px;
         height: 100px;
-        margin: 0 auto 20px;
+        margin: 0 auto;
         position: relative;
+    }
+    
+    .success-header {
+        background: linear-gradient(135deg, var(--primary-color) 0%, #224abe 100%);
     }
     
     .checkmark {
@@ -459,9 +443,9 @@
         border-radius: 50%;
         display: block;
         stroke-width: 2;
-        stroke: #00f2fe;
+        stroke: white;
         stroke-miterlimit: 10;
-        box-shadow: inset 0 0 0 rgba(0, 242, 254, 0.3);
+        box-shadow: inset 0 0 0 rgba(255, 255, 255, 0.1);
         animation: fill-circle 0.4s ease-in-out 0.4s forwards, scale-circle 0.3s ease-in-out 0.9s both;
     }
     
@@ -481,16 +465,7 @@
         animation: stroke-checkmark 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
     }
     
-    /* Typing Animation */
-    .typed-text {
-        display: inline-block;
-        font-size: 12px;
-        overflow: hidden;
-        white-space: normal;
-        border-right: 2px solid #00f2fe;
-        animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
-    }
-
+    /* Preview Container */
     .preview-container {
         max-height: 70vh;
         display: flex;
@@ -498,84 +473,29 @@
         align-items: center;
         width: 100%;
         height: 100%;
-        padding: 15px;
+        padding: 20px;
     }
-
+    
     .preview-image {
         max-width: 100%;
         max-height: 65vh;
         border-radius: 0.5rem;
-        justify-content: center;
         object-fit: contain;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
     }
     
-    /* Background Bubbles */
-    .bg-bubbles {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        overflow: hidden;
-    }
-    
-    .bubble {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.05);
-        box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
-        animation: float 15s infinite linear;
-    }
-    
-    .bubble-1 {
-        width: 150px;
-        height: 150px;
-        top: 10%;
-        left: 10%;
-        animation-duration: 20s;
-    }
-    
-    .bubble-2 {
-        width: 250px;
-        height: 250px;
-        top: 60%;
-        left: 80%;
-        animation-duration: 25s;
-    }
-    
-    .bubble-3 {
-        width: 100px;
-        height: 100px;
-        top: 80%;
-        left: 20%;
-        animation-duration: 15s;
-    }
-    
-    .bubble-4 {
-        width: 180px;
-        height: 180px;
-        top: 30%;
-        left: 50%;
-        animation-duration: 30s;
-    }
-    
-    .bubble-5 {
-        width: 120px;
-        height: 120px;
-        top: 70%;
-        left: 40%;
-        animation-duration: 18s;
+    /* Pulse Animation */
+    .pulse-animation {
+        animation: pulse 2s infinite;
     }
     
     /* Keyframe Animations */
     @keyframes fill-circle {
         0% {
-            box-shadow: inset 0 0 0 50px rgba(0, 242, 254, 0.1);
+            box-shadow: inset 0 0 0 50px rgba(255, 255, 255, 0.1);
         }
         100% {
-            box-shadow: inset 0 0 0 0 rgba(0, 242, 254, 0.1);
+            box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0.1);
         }
     }
     
@@ -606,58 +526,36 @@
         }
     }
     
-    @keyframes typing {
-        from { width: 0 }
-        to { width: 100% }
-    }
-    
-    @keyframes blink-caret {
-        from, to { border-color: transparent }
-        50% { border-color: #00f2fe }
-    }
-    
-    @keyframes float {
+    @keyframes pulse {
         0% {
-            transform: translateY(0) rotate(0deg);
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(78, 115, 223, 0.7);
         }
-        50% {
-            transform: translateY(-50px) rotate(180deg);
+        70% {
+            transform: scale(1);
+            box-shadow: 0 0 0 10px rgba(78, 115, 223, 0);
         }
         100% {
-            transform: translateY(0) rotate(360deg);
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(78, 115, 223, 0);
         }
     }
     
     /* Responsive Adjustments */
     @media (max-width: 768px) {
-        .glass-card {
+    
+        
+        .card-body {
             padding: 1.5rem;
         }
         
-        .floating-label {
-            left: 45px;
-            font-size: 0.9rem;
-        }
-        
-        .floating-input input:focus ~ .floating-label,
-        .floating-input input:not(:placeholder-shown) ~ .floating-label,
-        textarea:focus ~ .floating-label,
-        textarea:not(:placeholder-shown) ~ .floating-label {
-            left: 45px;
-            font-size: 0.7rem;
-        }
-        
         .file-icon {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
         }
         
-        .bubble {
-            display: none;
-        }
-        
-        .bubble-1, .bubble-2 {
-            display: block;
-            opacity: 0.1;
+        .btn-lg {
+            padding: 0.65rem 1.5rem;
+            font-size: 1rem;
         }
     }
 </style>
@@ -671,9 +569,28 @@
                once: true,
                easing: 'ease-out-quart',
                duration: 800,
-               offset: 120
+               offset: 100
            });
        }
+       
+       // Enable Bootstrap validation
+       (function() {
+           'use strict'
+           
+           var forms = document.querySelectorAll('.needs-validation')
+           
+           Array.prototype.slice.call(forms)
+               .forEach(function(form) {
+                   form.addEventListener('submit', function(event) {
+                       if (!form.checkValidity()) {
+                           event.preventDefault()
+                           event.stopPropagation()
+                       }
+                       
+                       form.classList.add('was-validated')
+                   }, false)
+               })
+       })();
        
        // Show success modal if there's a success message
        @if(session('success'))
@@ -690,6 +607,7 @@
        const filePreviewContent = document.getElementById('filePreviewContent');
        const fileUploadWrapper = document.querySelector('.file-upload-wrapper');
        const fileUploadContent = document.querySelector('.file-upload-content');
+       let currentPreviewFile = null;
        
        // Drag and drop functionality
        if (fileUploadWrapper) {
@@ -727,7 +645,7 @@
                
                // Limit to 3 files
                if (attachments.files.length > 3) {
-                   alert('Maksimal 3 file yang dapat diunggah');
+                   showToast('error', 'Maksimal 3 file yang dapat diunggah');
                    resetFileInput();
                    return;
                }
@@ -738,7 +656,13 @@
                    const fileSizeMB = file.size / (1024 * 1024);
                    
                    if (fileSizeMB > 5) {
-                       alert(`File ${file.name} melebihi ukuran maksimal 5MB`);
+                       showToast('error', `File ${file.name} melebihi ukuran maksimal 5MB`);
+                       resetFileInput();
+                       return;
+                   }
+                   
+                   if (!isValidFileType(file)) {
+                       showToast('error', `Format file ${file.name} tidak didukung`);
                        resetFileInput();
                        return;
                    }
@@ -752,26 +676,35 @@
            }
        }
        
+       function isValidFileType(file) {
+           const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+           return validTypes.includes(file.type);
+       }
+       
        function createFileCard(file, index) {
            const fileCard = document.createElement('div');
            fileCard.className = 'col-12 col-sm-6 col-md-4';
            
            let fileIcon = 'fa-file';
            let previewable = false;
+           let iconColor = 'text-muted';
            
            if (file.type.includes('image')) {
-               fileIcon = 'fa-file-image text-success';
+               fileIcon = 'fa-file-image';
+               iconColor = 'text-success';
                previewable = true;
            } else if (file.type.includes('pdf')) {
-               fileIcon = 'fa-file-pdf text-danger';
+               fileIcon = 'fa-file-pdf';
+               iconColor = 'text-danger';
            } else if (file.type.includes('word') || file.type.includes('document')) {
-               fileIcon = 'fa-file-word text-primary';
+               fileIcon = 'fa-file-word';
+               iconColor = 'text-primary';
            }
            
            fileCard.innerHTML = `
                <div class="file-card position-relative" data-file-index="${index}" data-previewable="${previewable}">
                    <div class="text-center">
-                       <i class="fas ${fileIcon} file-icon"></i>
+                       <i class="fas ${fileIcon} ${iconColor} file-icon"></i>
                        <div class="file-name text-truncate" style="max-width: 90%;" title="${file.name}">${file.name}</div>
                        <div class="file-size">${(file.size / (1024 * 1024)).toFixed(2)} MB</div>
                    </div>
@@ -791,6 +724,7 @@
                    const file = attachments.files[fileIndex];
                    const previewable = this.getAttribute('data-previewable') === 'true';
                    
+                   currentPreviewFile = file;
                    showFilePreview(file, previewable);
                });
            });
@@ -823,7 +757,7 @@
                reader.onload = function(e) {
                    const img = document.createElement('img');
                    img.src = e.target.result;
-                   img.className = 'preview-image img-fluid justify-content-center align-items-center';
+                   img.className = 'preview-image img-fluid';
                    img.alt = 'Preview';
                    previewContainer.appendChild(img);
                    filePreviewModal.show();
@@ -834,18 +768,10 @@
                previewContainer.innerHTML = `
                    <div class="p-4 text-center">
                        <i class="fas ${fileIcon} fa-5x mb-3"></i>
-                       <p class="text-white-50">Pratinjau tidak tersedia untuk jenis file ini</p>
-                       <a href="#" class="btn btn-neon-outline rounded-3 btn-hover-effect" id="downloadFile">
-                           <i class="fas fa-download me-2"></i>Unduh File
-                       </a>
+                       <p class="text-muted">Pratinjau tidak tersedia untuk jenis file ini</p>
                    </div>
                `;
                filePreviewModal.show();
-               
-               document.getElementById('downloadFile').addEventListener('click', function(e) {
-                   e.preventDefault();
-                   downloadFile(file);
-               });
            }
        }
        
@@ -853,7 +779,7 @@
            if (file.type.includes('image')) return 'fa-file-image text-success';
            if (file.type.includes('pdf')) return 'fa-file-pdf text-danger';
            if (file.type.includes('word') || file.type.includes('document')) return 'fa-file-word text-primary';
-           return 'fa-file text-white-50';
+           return 'fa-file text-muted';
        }
        
        function removeFile(index) {
@@ -883,6 +809,13 @@
            fileUploadContent.classList.remove('d-none');
        }
        
+       // Download button in preview modal
+       document.getElementById('downloadPreviewFile').addEventListener('click', function() {
+           if (currentPreviewFile) {
+               downloadFile(currentPreviewFile);
+           }
+       });
+       
        function downloadFile(file) {
            const url = URL.createObjectURL(file);
            const a = document.createElement('a');
@@ -892,6 +825,35 @@
            a.click();
            document.body.removeChild(a);
            URL.revokeObjectURL(url);
+       }
+       
+       // Toast notification
+       function showToast(type, message) {
+           const toast = document.createElement('div');
+           toast.className = `toast show position-fixed bottom-0 end-0 mb-4 me-4 align-items-center text-white bg-${type} border-0`;
+           toast.style.zIndex = '9999';
+           toast.role = 'alert';
+           toast.setAttribute('aria-live', 'assertive');
+           toast.setAttribute('aria-atomic', 'true');
+           
+           toast.innerHTML = `
+               <div class="d-flex">
+                   <div class="toast-body">
+                       <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} me-2"></i>
+                       ${message}
+                   </div>
+                   <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+               </div>
+           `;
+           
+           document.body.appendChild(toast);
+           
+           setTimeout(() => {
+               toast.classList.remove('show');
+               setTimeout(() => {
+                   document.body.removeChild(toast);
+               }, 300);
+           }, 3000);
        }
    });
 </script>

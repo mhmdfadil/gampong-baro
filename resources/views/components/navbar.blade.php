@@ -1,9 +1,26 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container">
+   
         <a class="navbar-brand" href="{{ route('beranda') }}">
-            <span class="logo-icon"><i class="fas fa-leaf"></i></span>
-            <span class="logo-text">Gampong<span>Baro</span></span>
+           
+               @php
+                            $ssetting = App\Models\Setting::first(); // Ambil data dari database
+                            
+                            // Handle nama_desa
+                            $nama_desa = $ssetting->nama_desa ?? '-';
+                            if ($nama_desa != '-') {
+                                $nama_desa_parts = explode(' ', $nama_desa);
+                                if (count($nama_desa_parts) > 1) {
+                                    $first_word = array_shift($nama_desa_parts);
+                                    $rest_words = implode(' ', $nama_desa_parts);
+                                    $nama_desa = $first_word.'<span>'.$rest_words.'</span>';
+                                }
+                            }
+                            
+                   
+                        @endphp
+
+                        <span class="logo-text ms-4">{!! $nama_desa !!}</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
             <i class="fas fa-bars"></i>
@@ -25,7 +42,7 @@
                         <a class="nav-link {{ request()->routeIs('profil') ? 'active' : '' }}" href="{{ route('profil') }}">Profil Desa</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('berita') ? 'active' : '' }}" href="{{ route('berita') }}">Berita</a>
+                        <a class="nav-link {{ request()->routeIs('berita') || request()->routeIs('berita.*') ? 'active' : '' }}" href="{{ route('berita') }}">Berita</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('belanja') ? 'active' : '' }}" href="{{ route('belanja') }}">Belanja</a>
@@ -36,5 +53,5 @@
                 </ul>
             </div>
         </div>
-    </div>
+
 </nav>

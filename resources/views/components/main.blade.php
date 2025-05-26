@@ -252,14 +252,14 @@
         /* Complaint Button - Enhanced Glossy Design */
         .complaint-btn {
             position: fixed;
-            left: 20px;
+            right: 20px;
             top: 95%;
             transform: translateY(-50%);
             z-index: 9998;
             width: 140px;
-            opacity: 0.65;
+            opacity: 0.55;
             height: 50px;
-            border-radius: 30px;
+            border-radius: 10px;
             background: linear-gradient(145deg, #ff4d4d, #cc0000);
             box-shadow: inset 0 2px 8px rgba(255, 255, 255, 0.3), 
                         0 6px 20px rgba(204, 0, 0, 0.4);
@@ -280,7 +280,7 @@
             content: "";
             position: absolute;
             top: 0;
-            left: -100%;
+            right: -100%;
             width: 100%;
             height: 100%;
             background: linear-gradient(
@@ -296,11 +296,16 @@
             transform: translateY(-5px) translateY(-50%);
             box-shadow: inset 0 2px 8px rgba(255, 255, 255, 0.3), 
                          0 10px 30px rgba(204, 0, 0, 0.6);
-            opacity: 1;
+            opacity: 0.75;
         }
 
         .complaint-btn:hover::before {
-            left: 100%;
+            right: 100%;
+        }
+
+        /* Tambahkan ini di CSS Anda */
+        .no-complaint-btn .complaint-btn {
+            display: none !important;
         }
 
         /* Hide on mobile */
@@ -649,7 +654,7 @@
     
     @include('components.navbar', ['navbarScroll' => $navbarScroll ?? true])
     
-    <!-- Floating Accessibility Container -->
+    {{-- <!-- Floating Accessibility Container -->
     <div class="accessibility-container">
         <!-- Perubahan hanya pada bagian tombol utama accessibility -->
         <button class="accessibility-main-btn" id="accessibilityToggle" aria-label="Toggle Accessibility">
@@ -719,7 +724,7 @@
                 <i class="fas fa-undo"></i> Reset Semua
             </button>
         </div>
-    </div>
+    </div> --}}
     
     <!-- Floating Complaint Button -->
     <button class="complaint-btn" title="Menu Pengaduan">
@@ -1068,7 +1073,12 @@
             document.querySelector('.complaint-btn').addEventListener('click', function () {
                 window.location.href = "{{ route('pengaduan') }}";
             });
-        });
+
+            // Cek URL halaman
+            if (window.location.pathname.includes('/pengaduan')) {
+                document.querySelector('.complaint-btn').style.display = 'none';
+            }
+                    });
     </script>
 
     @stack('scripts')
