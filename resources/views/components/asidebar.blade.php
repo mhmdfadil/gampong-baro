@@ -83,7 +83,7 @@
                             </a>
                         </li>
                         <li class="nav-item mb-1">
-    <a class="nav-link py-2 px-3 rounded-3 {{ request()->routeIs('truktur-organisasi.*') ? 'active' : '' }}" href="{{ route('struktur-organisasi.index') }}"
+    <a class="nav-link py-2 px-3 rounded-3 {{ request()->routeIs('struktur-organisasi.*') ? 'active' : '' }}" href="{{ route('struktur-organisasi.index') }}"
        style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; transition: all 0.3s ease;">
         <i class="bi bi-diagram-3 me-2" style="font-size: 0.85rem;"></i> Struktur Organisasi
     </a>
